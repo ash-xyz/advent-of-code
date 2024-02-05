@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"os"
+	"strconv"
 )
 
 func ReadFile(filePath string) []string {
@@ -25,4 +26,18 @@ func ReadFile(filePath string) []string {
 	}
 
 	return lines
+}
+
+func convertToInt(x []string) []int {
+	array := make([]int, len(x))
+	var err error
+
+	for i, val := range x {
+		array[i], err = strconv.Atoi(val)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return array
 }

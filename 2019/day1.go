@@ -42,7 +42,7 @@ func part1(input []string) {
 	println("Part 1: ", ans)
 }
 
-func main() {
+func day1() {
 	// Take its mass, divide by 3; round down and substract 2;
 	input := ReadFile("inputs/day1.txt")
 	part1(input)
