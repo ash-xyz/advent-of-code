@@ -7,9 +7,10 @@ import (
 )
 
 type aoc interface {
+	init() // Usually should be used to read in the file
 	part1() int
 	part2() int
-	run() (int, int)
+	run() (int, int) // Returns answers for part 1 and part 2
 }
 
 func ReadFile(filePath string) []string {

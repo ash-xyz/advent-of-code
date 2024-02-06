@@ -31,7 +31,7 @@ func runProgram(input []int) int {
 	}
 }
 
-func init() {
+func (d day2) init() {
 	input := ReadFile("inputs/day2.txt")
 	array := strings.Split(input[0], ",")
 	d2.input = convertToInt(array)
