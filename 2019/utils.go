@@ -6,6 +6,12 @@ import (
 	"strconv"
 )
 
+type aoc interface {
+	part1() int
+	part2() int
+	run() (int, int)
+}
+
 func ReadFile(filePath string) []string {
 	file, err := os.Open(filePath)
 	if err != nil {

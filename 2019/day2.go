@@ -1,9 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
+
+type day2 struct {
+	input []int
+}
+
+var d2 day2
 
 func runProgram(input []int) int {
 	program := make([]int, len(input))
@@ -26,40 +31,29 @@ func runProgram(input []int) int {
 	}
 }
 
-func p2(input []int) {
+func init() {
+	input := ReadFile("inputs/day2.txt")
+	array := strings.Split(input[0], ",")
+	d2.input = convertToInt(array)
+}
+
+func (d day2) part2() int {
 	for i := 0; i <= 99; i++ {
 		for j := 0; j <= 99; j++ {
-			input[1], input[2] = i, j
-			if runProgram(input) == 19690720 {
-				fmt.Println("Part 2: ", 100*i+j)
-				return
+			d.input[1], d.input[2] = i, j
+			if runProgram(d.input) == 19690720 {
+				return 100*i + j
 			}
 		}
 	}
+	return -1
 }
 
-func p1(input []int) {
-	input[1], input[2] = 12, 2
-
-	for i := 0; i < len(input); i += 4 {
-		opcode := input[i]
-
-		if opcode == 99 {
-			break
-		} else if opcode == 1 {
-			input[input[i+3]] = input[input[i+1]] + input[input[i+2]]
-		} else if opcode == 2 {
-			input[input[i+3]] = input[input[i+1]] * input[input[i+2]]
-		}
-	}
-
-	println("Part 1: ", input[0])
+func (d day2) part1() int {
+	d.input[1], d.input[2] = 12, 2
+	return runProgram(d.input)
 }
 
-func day2() {
-	input := ReadFile("inputs/day2.txt")
-	array := strings.Split(input[0], ",")
-	intArray := convertToInt(array)
-
-	p2(intArray)
+func (d day2) run() (int, int) {
+	return d.part1(), d.part2()
 }
