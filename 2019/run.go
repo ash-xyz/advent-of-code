@@ -3,6 +3,6 @@ package main
 import "fmt"
 
 func main() {
-	d2.init()
-	fmt.Println(d2.run())
+	d3.init()
+	fmt.Println(d3.part2())
 }
