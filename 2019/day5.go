@@ -13,6 +13,10 @@ const ADD = 1
 const MULTIPLY = 2
 const SAVE = 3
 const OUTPUT = 4
+const JUMP_IF_TRUE = 5
+const JUMP_IF_FALSE = 6
+const LESS_THAN = 7
+const EQUALS = 8
 const TERMINATE = 99
 
 const POSITION_MODE = 0
@@ -33,7 +37,7 @@ func (d day5) getArgs(program []int, index int) (int, int, int, int) {
 		return opcode, program[index+1], 0, 0
 	}
 
-	if opcode == ADD || opcode == MULTIPLY {
+	if opcode == ADD || opcode == MULTIPLY || opcode == LESS_THAN || opcode == EQUALS || opcode == JUMP_IF_FALSE || opcode == JUMP_IF_TRUE {
 
 		var arg1, arg2, arg3 int
 
@@ -71,6 +75,32 @@ func (d day5) runProgram(input_code int) int {
 			program[a3] = a1 + a2
 		case MULTIPLY:
 			program[a3] = a1 * a2
+		case JUMP_IF_TRUE:
+			if a1 != 0 {
+				i = a2
+			} else {
+				i += 3
+			}
+			continue
+		case JUMP_IF_FALSE:
+			if a1 == 0 {
+				i = a2
+			} else {
+				i += 3
+			}
+			continue
+		case LESS_THAN:
+			if a1 < a2 {
+				program[a3] = 1
+			} else {
+				program[a3] = 0
+			}
+		case EQUALS:
+			if a1 == a2 {
+				program[a3] = 1
+			} else {
+				program[a3] = 0
+			}
 		case SAVE:
 			program[a1] = input_code
 		case OUTPUT:
@@ -82,7 +112,7 @@ func (d day5) runProgram(input_code int) int {
 			panic("Bad Op Code")
 		}
 
-		if opcode == ADD || opcode == MULTIPLY {
+		if opcode == ADD || opcode == MULTIPLY || opcode == LESS_THAN || opcode == EQUALS {
 			i += 4
 		} else {
 			i += 2
@@ -97,11 +127,11 @@ func (d day5) init() {
 }
 
 func (d day5) part2() int {
-	return -1
+	return d.runProgram(5)
 }
 
 func (d day5) part1() int {
-	return d.runProgram(1)
+	return -1 // check previous commit for part1 code
 }
 
 func (d day5) run() (int, int) {
