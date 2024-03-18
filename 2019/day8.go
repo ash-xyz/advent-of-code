@@ -13,11 +13,37 @@ var d8 day8
 
 func (d *day8) init() {
 	input := ReadFile("inputs/day8.txt")
-	array := strings.Split(input[0], "")
-	d.pixels = convertToInt(array)
+	d.pixels = convertToInt(strings.Split(input[0], ""))
 }
 
 func (d *day8) part2() int {
+	layerSize := 25 * 6
+	decodedImage := make([]int, layerSize)
+	//initialise array with all 2's
+	for i := 0; i < layerSize; i++ {
+		decodedImage[i] = 2
+	}
+
+	for i := 0; i < len(d.pixels); i += layerSize {
+		for j := 0; j < layerSize; j++ {
+			if decodedImage[j] == 2 {
+				decodedImage[j] = d.pixels[i+j]
+			}
+		}
+	}
+
+	for i := 0; i < 6; i++ {
+		for j := 0; j < 25; j++ {
+			pix := decodedImage[i*25+j]
+			if pix == 1 {
+				print("#")
+			} else {
+				print(" ")
+			}
+		}
+		println("")
+	}
+
 	return -1
 }
 
