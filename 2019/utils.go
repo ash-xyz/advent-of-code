@@ -77,3 +77,17 @@ func convertToInt(x []string) []int {
 
 	return array
 }
+
+func convertToInt64(x []string) []int64 {
+	array := make([]int64, len(x))
+	var err error
+
+	for i, val := range x {
+		array[i], err = strconv.ParseInt(val, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return array
+}

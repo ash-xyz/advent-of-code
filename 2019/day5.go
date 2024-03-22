@@ -9,18 +9,22 @@ type day5 struct {
 	input []int
 }
 
-const ADD = 1
-const MULTIPLY = 2
-const SAVE = 3
-const OUTPUT = 4
-const JUMP_IF_TRUE = 5
-const JUMP_IF_FALSE = 6
-const LESS_THAN = 7
-const EQUALS = 8
-const TERMINATE = 99
+const (
+	ADD                  = 1
+	MULTIPLY             = 2
+	SAVE                 = 3
+	OUTPUT               = 4
+	JUMP_IF_TRUE         = 5
+	JUMP_IF_FALSE        = 6
+	LESS_THAN            = 7
+	EQUALS               = 8
+	RELATIVE_BASE_OFFSET = 9
+	TERMINATE            = 99
 
-const POSITION_MODE = 0
-const IMMEDIATE_MODE = 1
+	POSITION_MODE  = 0
+	IMMEDIATE_MODE = 1
+	RELATIVE_MODE  = 2
+)
 
 var d5 day5
 
