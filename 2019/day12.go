@@ -26,16 +26,25 @@ func (d *day12) init() {
 }
 
 func (d *day12) part2() int {
-	return -1
+	leMoons := make([]Moon, 0, len(d.moons))
+	leMoons = append(leMoons, d.moons...)
+
+	xCycleLength := d.findCycleLengthAlongAxis(leMoons, d.moons, 0)
+	yCycleLength := d.findCycleLengthAlongAxis(leMoons, d.moons, 1)
+	zCycleLength := d.findCycleLengthAlongAxis(leMoons, d.moons, 2)
+
+	return LCM(xCycleLength, yCycleLength, zCycleLength)
 }
 
 func (d *day12) part1() int {
+	leMoons := make([]Moon, 0, len(d.moons))
+	leMoons = append(leMoons, d.moons...)
 	for i := 0; i < 1000; i++ {
-		d.timeStep(d.moons)
+		d.timeStep(leMoons)
 	}
 
 	energy := 0
-	for _, moon := range d.moons {
+	for _, moon := range leMoons {
 		kineticEnergy, potentialEnergy := 0, 0
 		for i := 0; i < 3; i++ {
 			kineticEnergy += abs(moon.pos[i])
@@ -57,10 +66,41 @@ func (d day12) timeStep(moons []Moon) {
 		}
 	}
 
-	//we just learnt that range functions in golang return a reference/value - not a pointer; so using indexes is advisable
 	for i := range moons {
 		moons[i].applyVelocity()
 	}
+}
+
+func (d day12) timeStepAlongAxis(moons []Moon, axis int) {
+	for i := range moons {
+		for j := i + 1; j < len(moons); j++ {
+			moons[i].applyGravityAlongAxis(&moons[j], axis)
+		}
+	}
+
+	for i := range moons {
+		moons[i].applyVelocityAlongAxis(axis)
+	}
+}
+
+func (d day12) findCycleLengthAlongAxis(moons, original []Moon, axis int) int {
+	cycleLength := 1
+	for ; ; cycleLength++ {
+		d.timeStepAlongAxis(moons, axis)
+
+		cycleIsMet := true
+		for i := range d.moons {
+			if original[i].pos[axis] != moons[i].pos[axis] || original[i].vel[axis] != moons[i].vel[axis] {
+				cycleIsMet = false
+				break
+			}
+		}
+		if cycleIsMet {
+			break
+		}
+	}
+
+	return cycleLength
 }
 
 // ------------------------------------------------------------
@@ -90,4 +130,19 @@ func (m *Moon) applyVelocity() {
 	for i := 0; i < 3; i++ {
 		m.pos[i] += m.vel[i]
 	}
+}
+
+func (m *Moon) applyGravityAlongAxis(m1 *Moon, axis int) {
+	if m.pos[axis] < m1.pos[axis] {
+		m.vel[axis]++
+		m1.vel[axis]--
+	} else if m.pos[axis] > m1.pos[axis] {
+		m.vel[axis]--
+		m1.vel[axis]++
+	}
+
+}
+
+func (m *Moon) applyVelocityAlongAxis(axis int) {
+	m.pos[axis] += m.vel[axis]
 }
