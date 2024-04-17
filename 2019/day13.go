@@ -17,7 +17,35 @@ func (d *day13) init() {
 }
 
 func (d *day13) part2() int {
-	return -1
+	machine := Machine13{0}
+	input, output := make(chan int, 1), make(chan int)
+	d.instructions[0] = 2
+
+	go machine.Run(d.instructions, input, output)
+
+	latestScore := 0
+	paddle := 0
+
+	for x := range output {
+		y := <-output
+		id := <-output
+
+		if x == -1 && y == 0 {
+			latestScore = id
+		} else if id == 3 {
+			paddle = x
+		} else if id == 4 {
+			if paddle < x {
+				input <- 1
+			} else if paddle > x {
+				input <- -1
+			} else {
+				input <- 0
+			}
+		}
+	}
+
+	return latestScore
 }
 
 func (d *day13) part1() int {
