@@ -8,8 +8,13 @@ func TestPart1(t *testing.T) {
 		expected any
 	}{
 		{
-			input:    []string{"test input"},
-			expected: 0,
+			input: []string{"3   4",
+				"4   3",
+				"2   5",
+				"1   3",
+				"3   9",
+				"3   3"},
+			expected: 11,
 		},
 	}
 
@@ -17,6 +22,29 @@ func TestPart1(t *testing.T) {
 	for _, tc := range testCases {
 		if got := s.Part1(tc.input); got != tc.expected {
 			t.Errorf("Part1() = %v, want %v", got, tc.expected)
+		}
+	}
+}
+func TestPart2(t *testing.T) {
+	testCases := []struct {
+		input    []string
+		expected any
+	}{
+		{
+			input: []string{"3   4",
+				"4   3",
+				"2   5",
+				"1   3",
+				"3   9",
+				"3   3"},
+			expected: 31,
+		},
+	}
+
+	s := &Solution{}
+	for _, tc := range testCases {
+		if got := s.Part2(tc.input); got != tc.expected {
+			t.Errorf("Part2() = %v, want %v", got, tc.expected)
 		}
 	}
 }
