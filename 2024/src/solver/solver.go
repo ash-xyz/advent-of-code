@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"aoc2024/src/days/day01"
+	"aoc2024/src/days/day02"
 )
 
 type Day interface {
@@ -25,6 +26,8 @@ func New(day int) *Solver {
 	switch day {
 	case 1:
 		solution = &day01.Solution{}
+	case 2:
+		solution = &day02.Solution{}
 	// Add other days as needed
 	default:
 		panic(fmt.Sprintf("Day %d not implemented", day))
