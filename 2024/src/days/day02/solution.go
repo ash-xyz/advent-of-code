@@ -2,6 +2,7 @@ package day02
 
 import (
 	"math"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -54,5 +55,66 @@ func (s *Solution) Part1(input []string) any {
 }
 
 func (s *Solution) Part2(input []string) any {
-	return 0
+	totalSafe := 0
+	for _, line := range input {
+		parts := strings.Fields(line)
+		nums := make([]int, len(parts))
+		for i, part := range parts {
+			num, _ := strconv.Atoi(part)
+			nums[i] = num
+		}
+
+		if IsSafe(nums) {
+			totalSafe++
+			continue
+		}
+
+		isSafe := false
+		for i := 0; i < len(nums); i++ {
+			newNums := slices.Delete(slices.Clone(nums), i, i+1)
+			if IsSafe(newNums) {
+				isSafe = true
+				break
+			}
+		}
+
+		if isSafe {
+			totalSafe++
+		}
+	}
+
+	return totalSafe
+}
+
+func IsSafe(nums []int) bool {
+	if len(nums) < 2 {
+		return true
+	}
+
+	dir := 0 // 1 for increasing, -1 for decreasing
+	for i := 1; i < len(nums); i++ {
+		diff := nums[i] - nums[i-1]
+		if abs(diff) == 0 || abs(diff) > 3 {
+			return false
+		}
+		if dir == 0 {
+			if diff > 0 {
+				dir = 1
+			} else if diff < 0 {
+				dir = -1
+			}
+		} else {
+			if diff*dir <= 0 {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }
