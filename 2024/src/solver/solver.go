@@ -10,6 +10,7 @@ import (
 	"aoc2024/src/days/day01"
 	"aoc2024/src/days/day02"
 	"aoc2024/src/days/day03"
+	"aoc2024/src/days/day04"
 )
 
 type Day interface {
@@ -31,6 +32,8 @@ func New(day int) *Solver {
 		solution = &day02.Solution{}
 	case 3:
 		solution = &day03.Solution{}
+	case 4:
+		solution = &day04.Solution{}
 	// Add other days as needed
 	default:
 		panic(fmt.Sprintf("Day %d not implemented", day))
