@@ -78,7 +78,7 @@ func (s *Solution) Part1(input []string) any {
 			nums[i] = target
 		}
 
-		if len(nums) > 0 && isPossibleWithConcat(value, nums[0], nums[1:]) {
+		if len(nums) > 0 && isPossible(value, nums[0], nums[1:]) {
 			total += value
 		}
 	}
